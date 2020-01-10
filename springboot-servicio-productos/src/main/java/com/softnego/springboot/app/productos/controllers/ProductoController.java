@@ -14,7 +14,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("productos")
 public class ProductoController {
 
     @Autowired
@@ -35,9 +34,18 @@ public class ProductoController {
     }
 
     @GetMapping("/{id}")
-    public Producto detalle(@PathVariable Long id){
+    public Producto detalle(@PathVariable Long id) //throws Exception
+    {
         Producto producto = productoService.findById(id);
         producto.setPort(getPort());
+        /*
+        *Por si Hay fallo para detectar hystrix en el servicio item
+        *
+        * boolean ok =false;
+        if (!ok){
+          throw new Exception("No se pudo cargar el producto ");
+        }*/
+        //Thread.sleep(2000L);
         return producto;
     }
 

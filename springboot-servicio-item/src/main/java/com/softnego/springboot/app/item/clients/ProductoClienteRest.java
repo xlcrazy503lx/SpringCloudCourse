@@ -10,9 +10,9 @@ import java.util.List;
 @FeignClient(name = "servicio-productos")
 public interface ProductoClienteRest {
 
-    @GetMapping("/productos/listar")
+    @GetMapping("/listar")
     public List<Producto> listar();
 
-    @GetMapping("/productos/{id}")
+    @GetMapping("/{id}")
     public Producto detalle(@PathVariable Long id);
 }
