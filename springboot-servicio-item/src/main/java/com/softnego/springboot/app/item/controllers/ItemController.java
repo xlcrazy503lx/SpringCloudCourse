@@ -10,10 +10,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.List;
@@ -24,7 +21,8 @@ import java.util.Map;
 public class ItemController {
 
     @Autowired
-    @Qualifier("serviceFeign")
+    //@Qualifier("serviceFeign")
+    @Qualifier("serviceRestTemplate")
     private ItemService itemService;
 
     @Value("${configuracion.texto}")
@@ -40,6 +38,7 @@ public class ItemController {
     public Item listar(@PathVariable Long id, @PathVariable Integer cantidad){
         return itemService.findById(id,cantidad);
     }
+
     public Item metodoAlternativo( Long id, Integer cantidad){
         Item item = new Item();
         Producto producto = new Producto();
@@ -57,6 +56,24 @@ public class ItemController {
         json.put("texto",texto);
         json.put("puerto",puerto);
         return new ResponseEntity<Map<String,String>>(json, HttpStatus.OK);
+    }
+
+    @PostMapping("/")
+    @ResponseStatus(HttpStatus.CREATED)
+    public Producto crear(@RequestBody Producto producto){
+        return itemService.save(producto);
+    }
+
+    @PutMapping("/{id}")
+    @ResponseStatus(HttpStatus.CREATED)
+    public Producto editar(@RequestBody Producto producto,@PathVariable Long id){
+        return itemService.update(producto,id);
+    }
+
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void eliminar(@PathVariable Long id){
+        itemService.delete(id);
     }
 
 }

@@ -2,6 +2,7 @@ package com.softnego.springboot.app.item.models.service.impl;
 
 import com.softnego.springboot.app.item.clients.ProductoClienteRest;
 import com.softnego.springboot.app.item.models.Item;
+import com.softnego.springboot.app.item.models.Producto;
 import com.softnego.springboot.app.item.models.service.ItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
@@ -25,5 +26,20 @@ public class ItemServiceFeign implements ItemService {
     @Override
     public Item findById(Long id, Integer cantidad) {
         return new Item(productoClienteRest.detalle(id),cantidad);
+    }
+
+    @Override
+    public Producto save(Producto producto) {
+        return null;
+    }
+
+    @Override
+    public Producto update(Producto producto, Long id) {
+        return null;
+    }
+
+    @Override
+    public void delete(Long id) {
+
     }
 }
